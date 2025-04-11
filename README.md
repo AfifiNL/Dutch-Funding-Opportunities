@@ -19,39 +19,49 @@ A comprehensive web application that helps Dutch startups and innovators discove
 
 ## Repository Status
 
-This repository contains a partial codebase of the Dutch Funding Opportunities Platform. Key components and modules have been uploaded to showcase the application's architecture and core functionality. The full codebase includes additional components, pages, and features that are still in development.
+This repository contains the directory structure for the Dutch Funding Opportunities Platform. All required directories have been created, and you can now upload your files to these directories.
 
-### Uploaded Components
-
-- Authentication system (login, signup, password reset)
-- Core layout and UI components
-- Database schema types
-- Utility functions and hooks
-- Sample funding data
-
-## Project Structure
+## Complete Directory Structure
 
 ```
 /
-├── src/                  # Source code
-│   ├── app/              # Next.js app router components
-│   ├── components/       # Reusable UI components
-│   │   └── auth/         # Authentication components
-│   ├── features/         # Feature-specific code
-│   ├── utils/            # Utility functions
-│   ├── hooks/            # Custom React hooks
-│   ├── contexts/         # React context providers
-│   ├── api/              # API endpoints and services
-│   ├── data/             # Static data and mock data
-│   ├── pages/            # Next.js page components
-│   ├── scripts/          # Utility scripts
-│   └── types/            # TypeScript type definitions
-├── public/               # Static assets
-├── .next/                # Next.js build output
-├── Fund-data/            # Funding dataset
-├── case study/           # Case studies documentation
-├── types/                # Global TypeScript types
-└── docs/                 # Documentation
+├── .cursor/               # Cursor editor configuration
+│   └── rules/             # Project rules for AI assistance
+├── Fund-data/             # Funding dataset
+├── Prototype/             # Prototype designs and mockups
+├── case study/            # Case studies documentation
+├── docs/                  # Documentation
+├── public/                # Static assets
+├── src/                   # Source code
+│   ├── api/               # API endpoints and services
+│   ├── app/               # Next.js app router components
+│   │   ├── auth/          # Authentication pages
+│   │   ├── case-studies/  # Case studies pages
+│   │   │   └── isystem-ai/# Specific case study page
+│   │   ├── connections/   # Networking pages
+│   │   ├── funding/       # Funding opportunities pages
+│   │   ├── profile/       # User profile pages
+│   │   ├── reset-password/# Password reset pages
+│   │   └── saved/         # Saved opportunities pages
+│   ├── components/        # Reusable UI components
+│   │   ├── auth/          # Authentication components
+│   │   ├── layout/        # Layout components
+│   │   └── ui/            # UI component library
+│   ├── contexts/          # React context providers
+│   ├── data/              # Static data and mock data
+│   ├── features/          # Feature-specific code
+│   │   ├── funding-display/# Funding display components
+│   │   ├── hero/          # Hero section components
+│   │   ├── interactive-character/# Interactive character feature
+│   │   │   └── components/# Character components
+│   │   ├── investor-panel/# Investor panel components
+│   │   └── saved-opportunities/# Saved opportunities feature
+│   ├── hooks/             # Custom React hooks
+│   ├── pages/             # Next.js page components (legacy)
+│   ├── scripts/           # Utility scripts
+│   ├── types/             # TypeScript type definitions
+│   └── utils/             # Utility functions
+└── types/                 # Global TypeScript types
 ```
 
 ## Getting Started
@@ -62,40 +72,38 @@ This repository contains a partial codebase of the Dutch Funding Opportunities P
    cd Dutch-Funding-Opportunities
    ```
 
-2. Install dependencies
+2. Add your project files to the appropriate directories
+
+3. Install dependencies
    ```
    npm install
    ```
 
-3. Set up environment variables
+4. Set up environment variables
    Create a `.env.local` file with the following variables:
    ```
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
-4. Run the development server
+5. Run the development server
    ```
    npm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+6. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Database Setup
 
-This project uses Supabase as its backend. The database schema is defined in `src/types/supabase.ts`. To set up your own instance:
+This project uses Supabase as its backend. To set up your own instance:
 
 1. Create a Supabase project
-2. Run the SQL scripts in `fund_data_import.sql` to set up tables and sample data
+2. Upload and run your SQL scripts to set up tables and sample data
 3. Update your `.env.local` file with your Supabase credentials
 
 ## Deployment
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
-
-## Contributing
-
-This project is currently in active development. If you'd like to contribute, please reach out to the repository owner.
 
 ## License
 
