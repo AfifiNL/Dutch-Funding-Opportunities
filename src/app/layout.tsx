@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
-import AuthenticatedLayout from '@/components/AuthenticatedLayout';
 import { cookies } from 'next/headers';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -17,18 +16,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = cookies();
-  const isAuthenticated = cookieStore.get('supabase-auth-token');
-
+  // We'll handle authentication in client components instead of server component
+  // This avoids issues with cookie-based auth detection at the layout level
+  
   return (
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          {isAuthenticated ? (
-            <AuthenticatedLayout>{children}</AuthenticatedLayout>
-          ) : (
-            <>{children}</>
-          )}
+          {children}
         </Providers>
       </body>
     </html>
