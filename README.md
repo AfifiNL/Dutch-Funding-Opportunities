@@ -17,6 +17,18 @@ A comprehensive web application that helps Dutch startups and innovators discove
 - **Backend**: Supabase (PostgreSQL database, authentication, storage)
 - **Deployment**: Node.js hosting (see [DEPLOYMENT.md](DEPLOYMENT.md) for details)
 
+## Repository Status
+
+This repository contains a partial codebase of the Dutch Funding Opportunities Platform. Key components and modules have been uploaded to showcase the application's architecture and core functionality. The full codebase includes additional components, pages, and features that are still in development.
+
+### Uploaded Components
+
+- Authentication system (login, signup, password reset)
+- Core layout and UI components
+- Database schema types
+- Utility functions and hooks
+- Sample funding data
+
 ## Project Structure
 
 ```
@@ -24,6 +36,7 @@ A comprehensive web application that helps Dutch startups and innovators discove
 ├── src/                  # Source code
 │   ├── app/              # Next.js app router components
 │   ├── components/       # Reusable UI components
+│   │   └── auth/         # Authentication components
 │   ├── features/         # Feature-specific code
 │   ├── utils/            # Utility functions
 │   ├── hooks/            # Custom React hooks
@@ -68,9 +81,21 @@ A comprehensive web application that helps Dutch startups and innovators discove
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
+## Database Setup
+
+This project uses Supabase as its backend. The database schema is defined in `src/types/supabase.ts`. To set up your own instance:
+
+1. Create a Supabase project
+2. Run the SQL scripts in `fund_data_import.sql` to set up tables and sample data
+3. Update your `.env.local` file with your Supabase credentials
+
 ## Deployment
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
+## Contributing
+
+This project is currently in active development. If you'd like to contribute, please reach out to the repository owner.
 
 ## License
 
