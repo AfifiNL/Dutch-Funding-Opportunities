@@ -3,7 +3,7 @@
 import React, { ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import ProfileCompletionNotice from './ProfileCompletionNotice';
+import ProfileCompletionNotice from '@/components/ProfileCompletionNotice';
 
 interface AuthenticatedLayoutProps {
   children: ReactNode;

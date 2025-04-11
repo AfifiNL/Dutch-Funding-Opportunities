@@ -1,4 +1,4 @@
-import HomeClient from './HomeClient';
+import HomeClient from '@/app/HomeClient';
 import type { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
