@@ -1,0 +1,64 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project AI Rules and Tool Configuration
+## AI Behavior Rules (YAML Format)
+
+```yaml
+rules:
+  # --- MCP Server Suggestions ---
+
+  - name: Suggest Puppeteer for Browser/Web Automation
+    description: |
+      Use Puppeteer for tasks involving browser control, web scraping, or UI interaction.
+      Available Tools: puppeteer_navigate, puppeteer_screenshot, puppeteer_click,
+                       puppeteer_fill, puppeteer_select, puppeteer_hover, puppeteer_evaluate
+    # Triggered by keywords related to web automation and interaction.
+    query: automate browser OR interact with webpage OR web scrape OR control chrome OR puppeteer task OR click button OR fill form OR take screenshot OR navigate page
+    tool: puppeteer # Matches the name of the Puppeteer MCP server
+
+  - name: Suggest Supabase for Backend/DB Tasks
+    description: |
+      Use Supabase tools for managing Supabase projects, databases, migrations, etc.
+      Available Tools: list_projects, get_project, get_cost, confirm_cost, create_project,
+                       pause_project, restore_project, list_organizations, get_organization,
+                       list_tables, list_extensions, list_migrations, apply_migration,
+                       execute_sql, get_logs, get_project_url, get_anon_key,
+                       generate_typescript_types, create_branch, list_branches, delete_branch,
+                       merge_branch, reset_branch, rebase_branch
+    # Triggered by 'supabase' keyword or related database/backend management terms.
+    query: supabase OR manage supabase project OR supabase database OR supabase sql OR supabase table OR supabase migration OR supabase schema OR supabase auth OR list projects OR execute sql
+    tool: supabase # Matches the name of the Supabase MCP server
+
+  - name: Suggest Sequential Thinking for Planning/Complex Tasks
+    description: |
+      Use Sequential Thinking tool to break down complex tasks, generate step-by-step plans, or structure thought processes.
+      Available Tools: sequentialthinking
+    # Triggered by keywords related to planning, step generation, or structured thinking.
+    query: plan steps OR break down task OR outline process OR step-by-step OR sequential thinking OR complex problem OR think through OR structure plan
+    tool: sequentialthinking # Matches the name of the Sequential Thinking MCP server
+
+  # --- AI Development Context Guidance ---
+
+  - name: Guide AI with Project Context Files
+    description: |
+      IMPORTANT: To ensure consistency, prevent duplication, and track progress,
+      reference relevant context files from `.cursor/rules/` in your request using '@'.
+      Key files:
+      - @.cursor/rules/architecture-understanding.mdc (Overall structure)
+      - @.cursor/rules/plan.mdc (Current development plan)
+      - @.cursor/rules/directory-structure.mdc (File organization)
+      - @.cursor/rules/implement.mdc (Implementation details/notes)
+      - @.cursor/rules/memory.mdc (Long-term project memory/decisions)
+      - @.cursor/rules/lessons-learned.mdc (Past issues/solutions)
+      - @.cursor/rules/error-documentation.mdc (Common errors)
+      - @.cursor/rules/debug.mdc (Debugging notes)
+      - @.cursor/rules/rules.mdc (This file: Project-specific rules/conventions)
+
+      Example Prompt: "Implement the user login feature as described in @.cursor/rules/plan.mdc, following the patterns in @.cursor/rules/architecture-understanding.mdc and adhering to the guidance in @.cursor/rules/rules.mdc"
+    # Triggered by common coding/development action keywords.
+    query: implement OR write code OR add feature OR refactor OR modify code OR fix bug OR develop OR create function OR update component OR build module OR generate code
+    # No specific tool is suggested; this rule provides guidance.
+    # tool: context_guidance # Placeholder if a tool name is strictly required by parser

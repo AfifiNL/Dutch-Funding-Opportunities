@@ -1,0 +1,251 @@
+---
+description: MCP Tool Configuration based on connected servers.
+# This section explicitly lists the available MCP servers and tools.
+# The AI assistant should refer to this list when deciding which tool to call.
+mcp_servers:
+  - name: everything
+    tools:
+      - echo
+      - add
+      - printEnv
+      - longRunningOperation
+      - sampleLLM
+      - getTinyImage
+      - annotatedMessage
+    # Command: node F:\mcp-servers\servers\src\everything\dist\index.js
+  - name: fetch
+    tools:
+      - fetch
+    # Command: py -m mcp_server_fetch
+  - name: memory
+    tools:
+      - create_entities
+      - create_relations
+      - add_observations
+      - delete_entities
+      - delete_observations
+      - delete_relations
+      - read_graph
+      - search_nodes
+      - open_nodes
+    # Command: node F:\mcp-servers\servers\src\memory\dist\index.js
+  - name: puppeteer
+    tools:
+      - puppeteer_navigate
+      - puppeteer_screenshot
+      - puppeteer_click
+      - puppeteer_fill
+      - puppeteer_select # Tool to select an option in a <select> element
+      - puppeteer_hover # Tool to hover over an element
+      - puppeteer_evaluate # Tool to execute javascript in the page context
+    # Command: node F:\mcp-servers\servers\src\puppeteer\dist\index.js
+  - name: sentry
+    tools:
+      - get_sentry_issue
+    # Command: docker run --rm -i mcp/sentry --auth-token ... (truncated)
+  - name: sequentialthinking
+    tools:
+      - sequentialthinking
+    # Command: node F:\mcp-servers\servers\src\sequentialthinking\dist\index.js
+  - name: google maps
+    tools:
+      - maps_geocode
+      - maps_reverse_geocode
+      - maps_search_places
+      - maps_place_details
+      - maps_distance_matrix
+      - maps_elevation
+      - maps_directions
+    # Command: docker run --rm -i -e GOOGLE_MAPS_API_KEY=... mcp/google-maps
+
+# --- Modified Workflow Definition ---
+---
+description: Always include these rules, emphasizing creative use of available MCP tools.
+globs:
+alwaysApply: true
+---
+- Below is the Planning Workflow to follow:
+
+1. UNDERSTAND the REQUIREMENTS:
+<CLARIFICATION>
+# (Clarification steps remain the same)
+- Always ask for clarifications and follow-ups.
+- Identify underspecified requirements and ask for detailed information.
+- Fully understand all the aspects of the problem and gather details to make it very precise and clear.
+- Ask towards all the hypothesis and assumptions needed to be made. Remove all the ambiguities and uncertainties.
+- Suggest solutions that I didn't think about, i.e. anticipate my needs and things to be specified.
+- Consider if any of the `memory` tools could help structure the requirements or known facts.
+- Only after having hundred percent clarity and confidence, proceed for SOLUTION.
+</CLARIFICATION>
+
+2. FORMULATING the SOLUTION:
+<STEP BY STEP REASONING>
+<DECOMPOSE>
+# (Decomposition steps remain the same)
+- Have a meta architecture plan for the solution.
+- Break down the problem into key concepts and smaller sub-problems.
+- Consider using the `sequentialthinking` tool if the task requires complex planning or step-by-step execution logic beyond simple decomposition.
+- Use the `memory` tools (e.g., `create_entities`, `create_relations`) to represent the decomposed parts and their relationships, creating a structured plan or knowledge base.
+</DECOMPOSE>
+a. Think about all possible ways to solve the problem using the available tools (`everything`, `fetch`, `memory`, `puppeteer`, `sentry`, `sequentialthinking`, `google maps`).
+b. Set up the evaluation criterias and trade-offs to assess the merit of the solutions. Consider efficiency, reliability, and complexity of using the tools.
+c. Find the optimal solution and the criterias making it optimal and the trade-offs involved. Can the `memory` tools help evaluate options by storing pros/cons?
+<INFORMATION GATHERING>
+- If external information from the web is needed:
+    - For fetching static content from a specific URL, prefer the `fetch` tool for efficiency.
+    - For complex interactions with web pages (clicking buttons, filling forms, scraping dynamic content, handling logins, extracting specific data from rendered DOM): use the `puppeteer` tools.
+    - For location-based information: use the `google maps` tools.
+    - **Do not assume a general web search tool is available.** Use `fetch`, `puppeteer`, or `google maps` creatively. `puppeteer` *can* interact with search engine web interfaces as a last resort if direct APIs or targeted fetching are not feasible.
+
+- Example of using `fetch`:
+  <use_mcp_tool>
+  <server_name>fetch</server_name>
+  <tool_name>fetch</tool_name>
+  <arguments>
+  {
+    "url": "https://example.com/data.json"
+    # Optional: add headers, method, body etc. if needed
+    # "method": "POST",
+    # "headers": {"Content-Type": "application/json"},
+    # "body": "{\"key\": \"value\"}"
+  }
+  </arguments>
+  </use_mcp_tool>
+
+- Comprehensive Example of using `puppeteer` for a sequence of actions:
+  # Step 1: Navigate to the initial page
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_navigate</tool_name>
+  <arguments>
+  {
+    "url": "https://example.com/login",
+    "waitUntil": "networkidle0" # Optional: wait for network activity to cease
+  }
+  </arguments>
+  </use_mcp_tool>
+
+  # Step 2: Fill in the username field
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_fill</tool_name>
+  <arguments>
+  {
+    "selector": "#username", # CSS selector for the username input
+    "value": "myUsername"
+  }
+  </arguments>
+  </use_mcp_tool>
+
+  # Step 3: Fill in the password field
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_fill</tool_name>
+  <arguments>
+  {
+    "selector": "input[name='password']", # Example using attribute selector
+    "value": "mySecretPassword"
+  }
+  </arguments>
+  </use_mcp_tool>
+
+  # Step 4: Click the login button
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_click</tool_name>
+  <arguments>
+  {
+    "selector": "button[type='submit']", # CSS selector for the button
+    "waitForNavigation": true # Optional: specify if click causes navigation
+  }
+  </arguments>
+  </use_mcp_tool>
+
+  # Step 5: (After login/navigation) Select an option from a dropdown
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_select</tool_name>
+  <arguments>
+  {
+    "selector": "#reportType", # CSS selector for the <select> element
+    "value": "monthly" # The value attribute of the <option> to select
+  }
+  </arguments>
+  </use_mcp_tool>
+
+  # Step 6: Hover over a menu item to reveal a sub-menu (if needed)
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_hover</tool_name>
+  <arguments>
+  {
+    "selector": ".user-menu" # CSS selector for the element to hover
+  }
+  </arguments>
+  </use_mcp_tool>
+  # (Potentially add a short delay or wait for sub-menu element here if necessary)
+
+  # Step 7: Extract specific text content using evaluate
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_evaluate</tool_name>
+  <arguments>
+  {
+    # Javascript code to run in the browser context
+    # Example: Get the text content of an element with id 'welcomeMessage'
+    "pageFunction": "() => document.getElementById('welcomeMessage').textContent"
+  }
+  </arguments>
+  </use_mcp_tool> # The result of this evaluation will be returned
+
+  # Step 8: Extract an attribute value using evaluate
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_evaluate</tool_name>
+  <arguments>
+  {
+    # Example: Get the 'href' attribute of the first link inside a 'div' with class 'profile-link'
+    "pageFunction": "() => document.querySelector('div.profile-link a').getAttribute('href')"
+  }
+  </arguments>
+  </use_mcp_tool>
+
+  # Step 9: Take a screenshot of the current view
+  <use_mcp_tool>
+  <server_name>puppeteer</server_name>
+  <tool_name>puppeteer_screenshot</tool_name>
+  <arguments>
+  {
+    # Optional arguments like path, type, fullPage etc. can be added here
+    # "path": "screenshot.png",
+    # "fullPage": true,
+    # "type": "jpeg",
+    # "quality": 80
+  }
+  </arguments>
+  </use_mcp_tool> # Returns image data (e.g., base64 encoded) or saves to path if specified
+
+</INFORMATION GATHERING>
+
+<MULTI ATTEMPTS>
+# (Multi-attempts steps remain the same)
+a. Reason out rigorously about the optimality of the solution using the *available* toolset.
+b. Question every assumption and inference, supporting them with comprehensive reasoning. Can the `memory` tool store assumptions and track their validation?
+c. Think of better solutions than the present one Combining the strongest aspects of different solutions, potentially involving sequences of different tool calls (e.g., `fetch` then `memory`, or `puppeteer` then `memory`).
+d. Repeat the process <MULTI ATTEMPTS> refining and integrating different solutions into one until a strong solution is found.
+d. Can use <INFORMATION GATHERING> steps if needed to do research using `fetch` or `puppeteer`.
+</MULTI ATTEMPTS>
+</STEP BY STEP REASONING>
+
+3. SOLUTION VALIDATION:
+
+<REASONING PRESENTATION>
+# (Reasoning presentation steps remain the same)
+- Provide the PLAN with as much detail as possible, specifying which tools (`everything`, `fetch`, `memory`, `puppeteer`, `sentry`, `sequentialthinking`, `google maps`) will be used for each step.
+- Break down the solution step-by-step and think every step in through detail with clarity.
+- Reason out its optimality w.r.t. other promising solutions achievable with the given tools.
+- Explicitly tell all your assumptions, choices and decisions (e.g., "Assuming `sequentialthinking` helps with task ordering...").
+- Explain trade-offs in solutions (e.g., "Using `puppeteer` is powerful but might be slower than `fetch` for static content").
+- Restate my query in your own words if necessary after giving the solution.
+</REASONING PRESENTATION>
+- Before implementing, validate the SOLUTION plan produced by <REASONING PRESENTATION>. Ensure only tools listed in the `mcp_servers` section are planned for use.
