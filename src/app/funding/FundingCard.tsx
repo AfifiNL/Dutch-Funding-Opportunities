@@ -75,7 +75,9 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
   }, [opportunity]);
   
   // Get badge color based on funding type
-  const getBadgeColor = (type: string) => {
+  const getBadgeColor = (type: string | undefined) => {
+    if (!type) return 'bg-gray-100 text-gray-800';
+    
     switch(type) {
       case 'grant': return 'bg-green-100 text-green-800';
       case 'venture_capital': return 'bg-blue-100 text-blue-800';
@@ -84,6 +86,12 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
       case 'subsidy': return 'bg-teal-100 text-teal-800';
       default: return 'bg-gray-100 text-gray-800';
     }
+  };
+  
+  // Format funding type for display
+  const formatFundingType = (type: string | undefined) => {
+    if (!type) return 'Unknown';
+    return type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
   
   return (
@@ -133,7 +141,7 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
           
           <div className="mb-4">
             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getBadgeColor(opportunity.type)}`}>
-              {opportunity.type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+              {formatFundingType(opportunity.type)}
             </span>
             {opportunity.deadline && (
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 ml-2">
