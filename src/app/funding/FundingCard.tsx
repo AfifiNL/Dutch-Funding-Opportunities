@@ -96,7 +96,7 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
                 <div className="w-12 h-12 rounded-md overflow-hidden mr-4 bg-gray-50 flex-shrink-0">
                   <Image 
                     src={opportunity.logo_url} 
-                    alt={opportunity.organization} 
+                    alt={opportunity.organization || 'Organization logo'} 
                     width={48} 
                     height={48} 
                     className="object-contain"
@@ -105,13 +105,13 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
               ) : (
                 <div className="w-12 h-12 rounded-md mr-4 bg-primary-50 flex items-center justify-center flex-shrink-0">
                   <span className="text-primary-700 text-lg font-semibold">
-                    {opportunity.organization.charAt(0)}
+                    {opportunity.organization && opportunity.organization.charAt(0) || 'O'}
                   </span>
                 </div>
               )}
               <div>
                 <h3 className="text-lg font-medium text-gray-900">{opportunity.name}</h3>
-                <p className="text-sm text-gray-600">{opportunity.organization}</p>
+                <p className="text-sm text-gray-600">{opportunity.organization || 'Unknown organization'}</p>
               </div>
             </div>
             <button 
