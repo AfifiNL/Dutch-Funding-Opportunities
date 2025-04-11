@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { HomeClient } from './HomeClient';
+import { HomeClient } from '@/app/HomeClient';
 import { useSupabase } from '@/hooks/useSupabase';
 
 export default function Home() {
