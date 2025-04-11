@@ -76,15 +76,15 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
   
   // Get badge color based on funding type
   const getBadgeColor = (type: string | undefined) => {
-    if (!type) return 'bg-gray-100 text-gray-800';
+    if (!type) return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     
     switch(type) {
-      case 'grant': return 'bg-green-100 text-green-800';
-      case 'venture_capital': return 'bg-blue-100 text-blue-800';
-      case 'angel': return 'bg-purple-100 text-purple-800';
-      case 'loan': return 'bg-orange-100 text-orange-800';
-      case 'subsidy': return 'bg-teal-100 text-teal-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'grant': return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
+      case 'venture_capital': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
+      case 'angel': return 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400';
+      case 'loan': return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
+      case 'subsidy': return 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400';
+      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     }
   };
   
@@ -96,12 +96,12 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
   
   return (
     <Link href={`/funding/${opportunity.id}`}>
-      <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col border border-gray-100 dark:border-gray-700">
         <div className="p-6">
           <div className="flex justify-between items-start mb-4">
             <div className="flex items-center">
               {opportunity.logo_url ? (
-                <div className="w-12 h-12 rounded-md overflow-hidden mr-4 bg-gray-50 flex-shrink-0">
+                <div className="w-12 h-12 rounded-md overflow-hidden mr-4 bg-gray-50 dark:bg-gray-700 flex-shrink-0">
                   <Image 
                     src={opportunity.logo_url} 
                     alt={opportunity.organization || 'Organization logo'} 
@@ -111,24 +111,24 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
                   />
                 </div>
               ) : (
-                <div className="w-12 h-12 rounded-md mr-4 bg-primary-50 flex items-center justify-center flex-shrink-0">
-                  <span className="text-primary-700 text-lg font-semibold">
+                <div className="w-12 h-12 rounded-md mr-4 bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-teal-700 dark:text-teal-400 text-lg font-semibold">
                     {opportunity.organization && opportunity.organization.charAt(0) || 'O'}
                   </span>
                 </div>
               )}
               <div>
-                <h3 className="text-lg font-medium text-gray-900">{opportunity.name}</h3>
-                <p className="text-sm text-gray-600">{opportunity.organization || 'Unknown organization'}</p>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white">{opportunity.name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{opportunity.organization || 'Unknown organization'}</p>
               </div>
             </div>
             <button 
               onClick={toggleSave}
-              className="text-gray-400 hover:text-primary-500 transition-colors"
+              className="text-gray-400 hover:text-teal-500 dark:hover:text-teal-400 transition-colors"
               aria-label={isSaved ? 'Unsave opportunity' : 'Save opportunity'}
             >
               {isSaved ? (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-primary-500">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-teal-500 dark:text-teal-400">
                   <path fillRule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clipRule="evenodd" />
                 </svg>
               ) : (
@@ -144,23 +144,23 @@ export default function FundingCard({ opportunity }: FundingCardProps) {
               {formatFundingType(opportunity.type)}
             </span>
             {opportunity.deadline && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 ml-2">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 ml-2">
                 Deadline: {new Date(opportunity.deadline).toLocaleDateString()}
               </span>
             )}
           </div>
           
-          <p className="text-gray-600 text-sm mb-4 line-clamp-3">{opportunity.description}</p>
+          <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">{opportunity.description}</p>
           
-          <div className="mt-auto pt-4 border-t border-gray-100">
+          <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Amount:</span>
-              <span className="font-medium text-gray-900">{amountRange}</span>
+              <span className="text-gray-500 dark:text-gray-400">Amount:</span>
+              <span className="font-medium text-gray-900 dark:text-white">{amountRange}</span>
             </div>
             {opportunity.industry_focus && opportunity.industry_focus.length > 0 && (
               <div className="flex justify-between text-sm mt-2">
-                <span className="text-gray-500">Industries:</span>
-                <span className="font-medium text-gray-900">
+                <span className="text-gray-500 dark:text-gray-400">Industries:</span>
+                <span className="font-medium text-gray-900 dark:text-white">
                   {opportunity.industry_focus.slice(0, 2).join(', ')}
                   {opportunity.industry_focus.length > 2 && ' +'+(opportunity.industry_focus.length-2)}
                 </span>
