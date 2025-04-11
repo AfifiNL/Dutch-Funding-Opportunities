@@ -30,12 +30,14 @@ export function NotificationBell() {
     <div className="relative">
       <button
         onClick={toggleNotifications}
-        className="relative p-1 rounded-full text-gray-600 hover:text-primary-600 focus:outline-none"
+        className="relative p-1 rounded-full text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 focus:outline-none"
         aria-label="Notifications"
+        aria-expanded={isOpen ? 'true' : 'false'}
+        aria-controls="notification-panel"
       >
         <BellIcon className="h-6 w-6" />
         {unreadCount > 0 && (
-          <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
+          <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 dark:bg-red-400 ring-2 ring-white dark:ring-gray-800" />
         )}
       </button>
 
@@ -46,31 +48,34 @@ export function NotificationBell() {
             onClick={closeNotifications}
             aria-hidden="true"
           />
-          <div className="absolute right-0 z-20 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-            <div className="py-2 px-4 bg-gray-50 border-b border-gray-200">
-              <h3 className="text-sm font-medium text-gray-700">Notifications</h3>
+          <div 
+            id="notification-panel"
+            className="absolute right-0 z-20 mt-2 w-80 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 dark:ring-gray-700 border border-gray-100 dark:border-gray-700"
+          >
+            <div className="py-2 px-4 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Notifications</h3>
             </div>
             <div className="max-h-80 overflow-y-auto">
               {notifications.length === 0 ? (
-                <p className="py-4 px-4 text-sm text-gray-500 text-center">No notifications</p>
+                <p className="py-4 px-4 text-sm text-gray-500 dark:text-gray-400 text-center">No notifications</p>
               ) : (
-                <div className="divide-y divide-gray-200">
+                <div className="divide-y divide-gray-200 dark:divide-gray-700">
                   {notifications.map(notification => (
                     <div 
                       key={notification.id} 
-                      className={`px-4 py-3 ${notification.unread ? 'bg-blue-50' : ''}`}
+                      className={`px-4 py-3 ${notification.unread ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
                     >
-                      <p className="text-sm text-gray-800">{notification.message}</p>
-                      <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
+                      <p className="text-sm text-gray-800 dark:text-gray-200">{notification.message}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{notification.time}</p>
                     </div>
                   ))}
                 </div>
               )}
             </div>
             {notifications.length > 0 && (
-              <div className="py-2 px-4 border-t border-gray-200 bg-gray-50">
+              <div className="py-2 px-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
                 <button
-                  className="text-xs text-primary-600 hover:text-primary-500 font-medium"
+                  className="text-xs text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300 font-medium"
                   onClick={() => setNotifications([])}
                 >
                   Clear all notifications
